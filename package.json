@@ -6,6 +6,7 @@
     "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
+    "react-axe": "^3.1.0",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8"
   },
@@ -25,10 +26,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "eslint": "^5.3.0",
+    "@babel/core": "^7.4.3",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.0"
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4"
   }
 }
