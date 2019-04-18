@@ -1,2 +1,184 @@
 @import './variables';
 @import './common';
+
+.app {
+  display: flex;
+  height: 100vh;
+
+  &__message-content,
+  &__chat {
+    flex-basis: 50%;
+  }
+
+  &__message-content {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__chat {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.chat {
+  &__messages {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  &__message {
+    color: $blue;
+    cursor: pointer;
+    margin: 10px 0;
+    width: auto;
+
+    &:hover .chat__message-inner {
+      background-color: $pink;
+    }
+  }
+
+  &__message-inner {
+    display: inline-block;
+    padding: 5px 20px 5px 30px;
+  }
+
+  &__message-type,
+  &__message-username {
+    font-size: 10px;
+    font-weight: $fw-bold;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  &__message-text {
+    font-weight: normal;
+    font-size: 14px;
+    margin: 5px 0;
+
+    .svg-inline--fa {
+      margin: 0 10px 0 -24px;
+    }
+  }
+
+  &__message-form {
+    display: flex;
+  }
+
+  &__message-input {
+    background-size: 100% 200%;
+    background-image: linear-gradient(to bottom, $pink 50%, $white 50%);
+    border: solid $blue;
+    border-width: 0 0 2px 0;
+    font-size: 14px;
+    padding: 10px 0;
+    transition: background-position .5s;
+    width: 100%;
+    background-position: 0 -100%;
+    outline: 0;
+
+    &:disabled {
+      background-position: 0 0;
+      cursor: not-allowed;
+    }
+  }
+
+  &__button {
+    background-size: 100% 200%;
+    border: 0;
+    cursor: pointer;
+    outline: 0;
+    padding: 0 40px;
+    transition: background-position .5s;
+
+    &--active {
+      background-position: 0 -100%;
+    }
+
+    &--large {
+      background-image: linear-gradient(to bottom, $white 50%, $pink 50%);
+      width: 100%;
+      
+      &:hover,
+      &:focus {
+        .chat__icon-wrapper {
+          box-shadow: inset 0 -2px 0 0 $blue;
+        }
+      }
+    }
+
+    &--small {
+      background-image: linear-gradient(to bottom, $pink 50%, $white 50%);
+      background-position: 0 -100%;
+      border-bottom: 2px solid $blue;
+      padding: 0 20px;
+
+      .svg-inline--fa {
+        margin-left: 10px;
+        transition: transform .25s ease-in-out;
+        vertical-align: middle;
+      }
+
+      &:disabled {
+        background-position: 0 0;
+        cursor: not-allowed;
+
+        .svg-inline--fa {
+          transform: rotate(90deg);
+          transform-origin: center;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $pink;
+        background-image: none;
+      }
+    }
+  }
+
+  &__label-text,
+  &__button-text {
+    color: $blue;
+    font-size: 12px;
+    font-weight: $fw-bold;
+    text-transform: uppercase;
+  }
+
+  &__label-text {
+    font-size: 10px;
+  }
+
+  &__message-label {
+    width: 100%;
+  }
+
+  &__rooms {
+    width: 100%;
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    &--empty {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      min-height: 100px;
+    }
+  }
+
+  &__room {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-height: 100px;
+  }
+
+  &__icon-wrapper {
+    margin: 0 auto;
+    max-width: 40px;
+    padding: 10px 0;
+  }
+}
