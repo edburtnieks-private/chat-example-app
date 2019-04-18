@@ -8,8 +8,10 @@
         "extensions": [".js"]
       }
     ],
-    "linebreak-style": ["error", "windows"],
-    "global-require": "off"
+    "linebreak-style": "off",
+    "global-require": "off",
+    "arrow-parens": "off",
+    "comma-dangle": "off"
   },
   "globals": {
     "window": true,
