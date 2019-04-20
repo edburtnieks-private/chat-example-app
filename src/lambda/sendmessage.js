@@ -6,10 +6,16 @@ exports.handler = (event, context) => {
     key: process.env.CHATKIT_SECRET_KEY
   });
 
-  return chatkit.getRooms({})
-    .then(rooms => ({
+  const { userId, roomId, parts } = JSON.parse(event.body);
+
+  return chatkit.sendMultipartMessage({
+    userId,
+    roomId,
+    parts
+  })
+    .then(messageId => ({
       statusCode: 200,
-      body: JSON.stringify(rooms)
+      body: JSON.stringify(messageId)
     }))
     .catch(error => ({
       statusCode: 200,
