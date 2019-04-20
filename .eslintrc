@@ -8,10 +8,17 @@
         "extensions": [".js"]
       }
     ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
     "linebreak-style": "off",
     "global-require": "off",
     "arrow-parens": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "new-cap": "off"
   },
   "globals": {
     "window": true,

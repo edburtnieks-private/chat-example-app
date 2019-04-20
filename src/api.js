@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = 'http://localhost:34567';
 
 export const fetchRooms = async () => {
-  const { data } = await axios.get(`${API_URL}/chatkit/rooms`);
+  const { data } = await axios.get('/.netlify/functions/rooms');
   return data;
 };
 
