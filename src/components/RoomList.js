@@ -26,9 +26,13 @@ const RoomList = ({ activeRoom, rooms, onRoomClick }) => (
 );
 
 RoomList.propTypes = {
-  activeRoom: PropTypes.string.isRequired,
+  activeRoom: PropTypes.number,
   rooms: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
   onRoomClick: PropTypes.func.isRequired
+};
+
+RoomList.defaultProps = {
+  activeRoom: null
 };
 
 export default RoomList;

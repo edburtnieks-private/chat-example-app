@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SendMessageForm = ({ onSubmit, onChange, value }) => (
+const AddMessageForm = ({ onSubmit, onChange, value }) => (
   <form onSubmit={e => onSubmit(e)} className="chat__message-form">
     <label className="chat__message-label" htmlFor="message">
       <span className="chat__label-text">Message</span>
@@ -21,10 +21,10 @@ const SendMessageForm = ({ onSubmit, onChange, value }) => (
   </form>
 );
 
-SendMessageForm.propTypes = {
+AddMessageForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired
 };
 
-export default SendMessageForm;
+export default AddMessageForm;
