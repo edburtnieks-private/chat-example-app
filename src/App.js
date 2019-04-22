@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRooms, fetchMessages, sendMessage } from './api';
+import { fetchRooms, fetchMessages, addMessage } from './api/index';
 import MessageList from './components/MessageList';
-import SendMessageForm from './components/SendMessageForm';
+import AddMessageForm from './components/AddMessageForm';
 import RoomList from './components/RoomList';
 
 const App = () => {
+  const [currentUser, setCurrentUser] = useState('');
   const [rooms, setRooms] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [activeRoom, setActiveRoom] = useState('');
+  const [activeRoom, setActiveRoom] = useState(null);
   const [message, setMessage] = useState({
     text: '',
     url: '',
@@ -15,6 +16,8 @@ const App = () => {
   });
 
   useEffect(() => {
+    setCurrentUser('Ed');
+
     const setFetchedRooms = async () => {
       setRooms(await fetchRooms());
     };
@@ -26,20 +29,19 @@ const App = () => {
     setMessages(await fetchMessages(roomId));
   };
 
-  const handleSendMessage = async e => {
+  const handleAddMessage = async e => {
     e.preventDefault();
 
-    const id = await sendMessage(activeRoom, message);
+    const id = await addMessage(currentUser, activeRoom, message);
     const newMessage = {
-      id: id.toString(),
-      sender: 'Ed',
+      id,
+      user_id: currentUser,
       text: message.text,
       url: message.url,
       type: message.type
     };
 
     setMessages([...messages, newMessage]);
-
     setMessage({
       text: '',
       url: '',
@@ -58,8 +60,8 @@ const App = () => {
 
       <section className="app__chat">
         <MessageList messages={messages} />
-        <SendMessageForm
-          onSubmit={handleSendMessage}
+        <AddMessageForm
+          onSubmit={handleAddMessage}
           onChange={handleMessageChange}
           value={message.text}
         />
