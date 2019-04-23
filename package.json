@@ -36,10 +36,14 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "http-proxy-middleware": "^0.19.1"
+    "http-proxy-middleware": "^0.19.1",
+    "jest-environment-enzyme": "^7.0.2",
+    "jest-enzyme": "^7.0.2"
   }
 }
