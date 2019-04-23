@@ -29,6 +29,9 @@
   },
   "globals": {
     "window": true,
-    "document": true
+    "document": true,
+    "describe": true,
+    "it": true,
+    "expect": true
   }
 }

@@ -24,7 +24,7 @@ const App = () => {
     setFetchedRooms();
   }, []);
 
-  const handleEnterRoom = async roomId => {
+  const handleRoomClick = async roomId => {
     setActiveRoom(roomId);
     setMessages(await fetchMessages(roomId));
   };
@@ -66,9 +66,9 @@ const App = () => {
           value={message.text}
         />
         <RoomList
-          activeRoom={activeRoom}
           rooms={rooms}
-          onRoomClick={handleEnterRoom}
+          activeRoom={activeRoom}
+          onRoomClick={handleRoomClick}
         />
       </section>
     </React.Fragment>
