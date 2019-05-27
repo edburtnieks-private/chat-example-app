@@ -1,5 +1,11 @@
 import ApolloClient from 'apollo-boost';
-import { roomsQuery, messagesQuery } from './queries';
+import {
+  roomsQuery,
+  messagesQuery,
+  trackSpotifyQuery,
+  albumSpotifyQuery,
+  playlistSpotifyQuery
+} from './queries';
 import { addMessageMutation } from './mutations';
 
 const API_URL = '/.netlify/functions/graphql';
@@ -39,4 +45,34 @@ export const addMessage = async (userId, roomId, content) => {
     }
   });
   return data.addMessage;
+};
+
+export const fetchTrackSpotify = async (id) => {
+  const { data } = await client.query({
+    query: trackSpotifyQuery,
+    variables: {
+      id
+    }
+  });
+  return data.trackSpotify;
+};
+
+export const fetchAlbumSpotify = async (id) => {
+  const { data } = await client.query({
+    query: albumSpotifyQuery,
+    variables: {
+      id
+    }
+  });
+  return data.albumSpotify;
+};
+
+export const fetchPlaylistSpotify = async (id) => {
+  const { data } = await client.query({
+    query: playlistSpotifyQuery,
+    variables: {
+      id
+    }
+  });
+  return data.playlistSpotify;
 };
