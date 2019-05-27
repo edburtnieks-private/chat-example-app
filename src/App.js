@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRooms, fetchMessages, addMessage } from './api/index';
+import {
+  fetchRooms,
+  fetchMessages,
+  addMessage,
+  fetchTrackSpotify,
+  fetchAlbumSpotify,
+  fetchPlaylistSpotify
+} from './api/index';
 import MessageList from './components/MessageList';
 import AddMessageForm from './components/AddMessageForm';
 import RoomList from './components/RoomList';
+import MessageContent from './components/MessageContent';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState('');
@@ -12,8 +20,9 @@ const App = () => {
   const [message, setMessage] = useState({
     text: '',
     url: '',
-    type: 'track'
+    type: 'album'
   });
+  const [messageContent, setMessageContent] = useState(null);
 
   useEffect(() => {
     setCurrentUser('Ed');
@@ -21,6 +30,7 @@ const App = () => {
     const setFetchedRooms = async () => {
       setRooms(await fetchRooms());
     };
+
     setFetchedRooms();
   }, []);
 
@@ -54,12 +64,38 @@ const App = () => {
     text: e.target.value
   });
 
+  const handeMessageClick = async content => {
+    const urlParts = content.text.split('/');
+    const id = urlParts[urlParts.length - 1];
+    let data;
+
+    switch (content.type) {
+      case 'track':
+        data = await fetchTrackSpotify(id);
+        break;
+      case 'album':
+        data = await fetchAlbumSpotify(id);
+        break;
+      case 'playlist':
+        data = await fetchPlaylistSpotify(id);
+        break;
+      default:
+    }
+
+    setMessageContent(data);
+  };
+
   return (
     <React.Fragment>
-      <section className="app__message-content" />
+      <section className="app__message-content">
+        <MessageContent content={messageContent} />
+      </section>
 
       <section className="app__chat">
-        <MessageList messages={messages} />
+        <MessageList
+          onMessageClick={handeMessageClick}
+          messages={messages}
+        />
         <AddMessageForm
           onSubmit={handleAddMessage}
           onChange={handleMessageChange}

@@ -24,3 +24,38 @@ export const messagesQuery = gql`
     }
   }
 `;
+
+export const trackSpotifyQuery = gql`
+  query TrackSpotify($id: String!) {
+    trackSpotify(id: $id) {
+      name
+      album {
+        images {
+          url
+        }
+      }
+      type
+      error
+    }
+  }
+`;
+
+export const albumSpotifyQuery = gql`
+  query AlbumSpotify($id: String!) {
+    albumSpotify(id: $id) {
+      name
+      type
+      error
+    }
+  }
+`;
+
+export const playlistSpotifyQuery = gql`
+  query PlaylistSpotify($id: String!) {
+    playlistSpotify(id: $id) {
+      name
+      type
+      error
+    }
+  }
+`;

@@ -1,12 +1,13 @@
 const { ApolloServer, gql } = require('apollo-server-lambda');
 const Chatkit = require('@pusher/chatkit-server');
+const axios = require('axios');
 
 const chatkit = new Chatkit.default({
   instanceLocator: process.env.CHATKIT_INSTANCE_LOCATOR,
   key: process.env.CHATKIT_SECRET_KEY
 });
 
-const typeDefs = gql`
+const roomTypeDefs = `
   type RoomData {
     type: String!
     faIcon: String!
@@ -17,18 +18,15 @@ const typeDefs = gql`
     name: String!
     custom_data: RoomData!
   }
+`;
 
+const messageTypeDefs = `
   type Message {
     id: Int!
     user_id: String!
     text: String!
     url: String!
     type: String!
-  }
-
-  type Query {
-    rooms: [Room!]!
-    messages(roomId: Int!): [Message!]!
   }
 
   input MessagePartsInput {
@@ -40,6 +38,46 @@ const typeDefs = gql`
     userId: String!
     roomId: Int!
     parts: [MessagePartsInput!]!
+  }
+`;
+
+const spotifyTypeDefs = `
+  type TrackSpotify {
+    name: String
+    album: AlbumSpotify
+    type: String
+    error: String
+  }
+
+  type ImagesSpotify {
+    url: String
+  }
+
+  type AlbumSpotify {
+    name: String
+    images: [ImagesSpotify]
+    type: String
+    error: String
+  }
+
+  type PlaylistSpotify {
+    name: String
+    type: String
+    error: String
+  }
+`;
+
+const typeDefs = gql`
+  ${roomTypeDefs}
+  ${messageTypeDefs}
+  ${spotifyTypeDefs}
+
+  type Query {
+    rooms: [Room!]!
+    messages(roomId: Int!): [Message!]!
+    trackSpotify(id: String!): TrackSpotify!
+    albumSpotify(id: String!): AlbumSpotify!
+    playlistSpotify(id: String!): PlaylistSpotify!
   }
 
   type Mutation {
@@ -80,6 +118,66 @@ const resolvers = {
       } catch (error) {
         throw error;
       }
+    },
+    trackSpotify: async (_, args, context) => {
+      try {
+        const { id } = args;
+        const { spotifyAccessToken } = context;
+        if (spotifyAccessToken) {
+          const accessToken = spotifyAccessToken.split('=')[1];
+          const { data } = await axios.get(`https://api.spotify.com/v1/tracks/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+
+          return data;
+        }
+
+        return { error: 'Not logged in Spotify' };
+      } catch (error) {
+        throw error;
+      }
+    },
+    albumSpotify: async (_, args, context) => {
+      try {
+        const { id } = args;
+        const { spotifyAccessToken } = context;
+        if (spotifyAccessToken) {
+          const accessToken = spotifyAccessToken.split('=')[1];
+          const { data } = await axios.get(`https://api.spotify.com/v1/albums/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+
+          return data;
+        }
+
+        return { error: 'Not logged in Spotify' };
+      } catch (error) {
+        throw error;
+      }
+    },
+    playlistSpotify: async (_, args, context) => {
+      try {
+        const { id } = args;
+        const { spotifyAccessToken } = context;
+        if (spotifyAccessToken) {
+          const accessToken = spotifyAccessToken.split('=')[1];
+          const { data } = await axios.get(`https://api.spotify.com/v1/playlists/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+
+          return data;
+        }
+
+        return { error: 'Not logged in Spotify' };
+      } catch (error) {
+        throw error;
+      }
     }
   },
   Mutation: {
@@ -101,7 +199,10 @@ const resolvers = {
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: ({ event }) => ({
+    spotifyAccessToken: event.headers.cookie
+  })
 });
 
 exports.handler = server.createHandler();
